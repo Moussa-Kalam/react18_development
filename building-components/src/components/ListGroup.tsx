@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// Pass data via props (immutable)
 interface Props {
   cities: string[];
   heading: string;
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const ListGroup = ({ cities, heading, onSelectCity }: Props) => {
-  // Manage state
+  // Manage state (mutable)
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   return (
@@ -25,7 +26,7 @@ const ListGroup = ({ cities, heading, onSelectCity }: Props) => {
             key={city}
             onClick={() => {
               setSelectedIndex(index);
-              onSelectCity(city)
+              onSelectCity(city);
             }}
           >
             {city}
