@@ -1,9 +1,19 @@
-import ListGroup from "./components/ListGroup"
+import ListGroup from "./components/ListGroup";
 
 const App = () => {
-  return (
-    <ListGroup />
-  )
-}
+  let cities = ["Cotonou", "Porto-Novo", "Abomey", "Calavi", "Djougou", "Parakou", "Dassa"];
 
-export default App
+  const handleSelectCity = (city: string) => {
+    console.log(city);
+  };
+
+  return (
+    <ListGroup
+      cities={cities}
+      heading="Cities in Benin"
+      onSelectCity={handleSelectCity}
+    />
+  );
+};
+
+export default App;
