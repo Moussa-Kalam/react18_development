@@ -1,15 +1,21 @@
-import { ReactNode } from "react"
-import styles from "./Button.module.css"
+import { ReactNode } from "react";
+import styles from "./Button.module.css";
 
 interface Props {
-    children: ReactNode
-    onClick: () => void;
+  children: ReactNode;
+  onClick: () => void;
 }
 
-const Button = ({children, onClick}: Props) => {
+const Button = ({ children, onClick }: Props) => {
   return (
-    <button type="submit" className={[styles.btn, styles.btnBg].join(' ')} onClick={onClick}>{children}</button>
-  )
-}
+    <button
+      type="submit"
+      className={[styles.btn, styles.btnBg].join(" ")}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
 
-export default Button
+export default Button;
