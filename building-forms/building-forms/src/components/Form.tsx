@@ -1,51 +1,46 @@
-import React, { FormEvent, useRef } from "react";
+import { FieldValues, useForm } from "react-hook-form"; // Managing data with React Hook Form
 
 const Form = () => {
-  // Use ref Hook to access input field
-  // Always initialize your variables with null
-  const nameRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const dobRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const { register, handleSubmit } = useForm(); // Use the register and handleSubmit functions from the useForm Hook
 
-  // It is better to post the data to the server as an object
-  let person = { name: "", age: 0, DateOfBirth: new Date(), email: "" };
-
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault(); // Prevent to the form to be submitted to server by default
-
-    // If the element is not null, provide its value to the right input field
-    if (nameRef.current !== null) person.name = nameRef.current.value;
-    if (ageRef.current !== null) person.age = parseInt(ageRef.current.value);
-    if (dobRef.current !== null)
-      person.DateOfBirth = new Date(dobRef.current.value);
-    if (emailRef.current !== null) person.email = emailRef.current.value;
-
-    console.log(person);
-  };
+  const onSubmit = (data: FieldValues) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Name
         </label>
-        {/* ref={nameRef} is used to reference the value of the input from the user */}
-        <input ref={nameRef} id="name" type="text" className="form-control" />
+        <input
+          {...register("name")}
+          id="name"
+          type="text"
+          className="form-control"
+        />
       </div>
 
       <div className="mb-3">
         <label htmlFor="age" className="form-label">
           Age
         </label>
-        <input ref={ageRef} id="age" type="number" className="form-control" />
+        <input
+          {...register("age")}
+          id="age"
+          type="number"
+          className="form-control"
+        />
       </div>
 
       <div className="mb-3">
         <label htmlFor="DOB" className="form-label">
           Date Of Birth
         </label>
-        <input ref={dobRef} id="DOB" type="date" className="form-control" />
+        <input
+          {...register("dob")}
+          id="DOB"
+          type="date"
+          className="form-control"
+        />
       </div>
 
       <div className="mb-3">
@@ -53,7 +48,7 @@ const Form = () => {
           Email
         </label>
         <input
-          ref={emailRef}
+          {...register("email")}
           id="email"
           type="email"
           className="form-control"
