@@ -1,14 +1,20 @@
 import React, { FormEvent, useRef } from "react";
 
 const Form = () => {
+  // Use ref Hook to access input field
+  // Always initialize your variables with null
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const dobRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+
+  // It is better to post the data to the server as an object
   let person = { name: "", age: 0, DateOfBirth: new Date(), email: "" };
 
   const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent to the form to be submitted to server by default
+
+    // If the element is not null, provide its value to the right input field
     if (nameRef.current !== null) person.name = nameRef.current.value;
     if (ageRef.current !== null) person.age = parseInt(ageRef.current.value);
     if (dobRef.current !== null)
@@ -24,6 +30,7 @@ const Form = () => {
         <label htmlFor="name" className="form-label">
           Name
         </label>
+        {/* ref={nameRef} is used to reference the value of the input from the user */}
         <input ref={nameRef} id="name" type="text" className="form-control" />
       </div>
 
