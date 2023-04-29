@@ -1,7 +1,24 @@
 import { FieldValues, useForm } from "react-hook-form"; // Managing data with React Hook Form
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  name: z.string().min(3).max(20),
+  age: z
+    .number({ invalid_type_error: "Age field is required." })
+    .min(18, { message: "Age must be at least 18." }),
+  date: z.date(),
+  email: z.string().email({ message: "Please provide a valid email." }),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const Form = () => {
-  const { register, handleSubmit } = useForm(); // Use the register and handleSubmit functions from the useForm Hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => console.log(data);
 
@@ -17,6 +34,7 @@ const Form = () => {
           type="text"
           className="form-control"
         />
+        {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
 
       <div className="mb-3">
@@ -24,11 +42,12 @@ const Form = () => {
           Age
         </label>
         <input
-          {...register("age")}
+          {...register("age", { valueAsNumber: true })}
           id="age"
           type="number"
           className="form-control"
         />
+        {errors.age && <p className="text-danger">{errors.age.message}</p>}
       </div>
 
       <div className="mb-3">
@@ -36,11 +55,12 @@ const Form = () => {
           Date Of Birth
         </label>
         <input
-          {...register("dob")}
+          {...register("date", { valueAsDate: true })}
           id="DOB"
           type="date"
           className="form-control"
         />
+        {errors.date && <p className="text-danger">{errors.date.message}</p>}
       </div>
 
       <div className="mb-3">
@@ -53,8 +73,9 @@ const Form = () => {
           type="email"
           className="form-control"
         />
+        {errors.email && <p className="text-danger">{errors.email.message}</p>}
       </div>
-      <button className="btn btn-primary" type="submit">
+      <button disabled={!isValid} className="btn btn-primary" type="submit">
         Submit
       </button>
     </form>
